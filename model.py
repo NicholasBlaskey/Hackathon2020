@@ -6,12 +6,17 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix
 from flask import Flask, request, jsonify
 import sys
-
+import os
 
 app = Flask(__name__)
 
 '''
 Test with / make requests with 
+
+Warning the data it was trained on was extremly unbalanced so it has issues predicting correctly
+Will likely only predict. 
+
+
 Note it is actually order sensative
 curl -i -H "Content-Type: application/json" -X POST -d '{"age":50, "high_risk_exposure_occupation": false, "labored_respiration": true, "wheezes": true, "cough": false, "temperature": 35, "diarrhea": false,"fatigue": false, "headache": true, "loss_of_smell": false, "loss_of_taste": true, "runny_nose": false, "muscle_sore": true, "sore_throat": true}' http://localhost:5000
 '''
@@ -61,7 +66,7 @@ print("Model trained with acc of ", acc, file = sys.stderr)
 print("Confusion matrix of ", file = sys.stderr)
 print(cm,  file=sys.stderr)
 
-app.run()
+app.run(host = "0.0.0.0", port = int(os.getenv(str("PORT"))))
     
     
 #if __name__ == "__main__":

@@ -1,9 +1,11 @@
+from __future__ import print_function
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix
 from flask import Flask, request, jsonify
+import sys
 
 
 app = Flask(__name__)
@@ -14,7 +16,7 @@ Note it is actually order sensative
 curl -i -H "Content-Type: application/json" -X POST -d '{"age":50, "high_risk_exposure_occupation": false, "labored_respiration": true, "wheezes": true, "cough": false, "temperature": 35, "diarrhea": false,"fatigue": false, "headache": true, "loss_of_smell": false, "loss_of_taste": true, "runny_nose": false, "muscle_sore": true, "sore_throat": true}' http://localhost:5000
 '''
 @app.route('/', methods = ["POST"])
-def hello_world():
+def host_model():
     data = request.json
     for key in data:
         data[key] = [data[key]]
@@ -55,9 +57,9 @@ model = LogisticRegression(random_state = 42).fit(X_train, y_train)
 acc = model.score(X_test, y_test)
 preds = model.predict(X_test)
 cm = confusion_matrix(y_test, preds)
-print("Model trained with acc of ", acc)
-print("Confusion matrix of ")
-print(cm)
+print("Model trained with acc of ", acc, file = sys.stderr)
+print("Confusion matrix of ", file = sys.stderr)
+print(cm,  file=sys.stderr)
 
 app.run()
     

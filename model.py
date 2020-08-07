@@ -7,6 +7,7 @@ from sklearn.metrics import confusion_matrix
 from flask import Flask, request, jsonify
 import sys
 import os
+import numpy as np
 
 app = Flask(__name__)
 
@@ -65,6 +66,9 @@ cm = confusion_matrix(y_test, preds)
 print("Model trained with acc of ", acc, file = sys.stderr)
 print("Confusion matrix of ", file = sys.stderr)
 print(cm,  file=sys.stderr)
+
+coef = pd.concat([pd.DataFrame(X_train.columns), pd.DataFrame(np.transpose(model.coef_))], axis = 1)
+print(coef,  file=sys.stderr)
 
 app.run(host = "0.0.0.0", port = int(os.getenv(str("PORT"))))
     

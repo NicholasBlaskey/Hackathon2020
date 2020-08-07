@@ -30,5 +30,7 @@ if "temperature" in out.columns:
     out[["temperature"]] = out[["temperature"]].fillna(
         value = out[["temperature"]].mean(skipna = True))    
 out = out.dropna()
+#out = out.drop(out.columns[0], axis = 1)
+
 
 out.to_csv("data.csv")
